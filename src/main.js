@@ -6,9 +6,6 @@ function loadStudents() {
 }
 
 function renderStudents(posts) {
-	//console.log(posts);
-	//conlose.log(posts.json());
-	
 	let template = document.getElementById("post-template");
 	let postElement = template.content.querySelector(".post");
 	let postList = document.getElementById("posts");
@@ -26,20 +23,26 @@ function updatePostElement(postClone, post) {
 	postClone.getElementsByTagName("h2")[0].innerHTML = post.knowledge;
 }
 
+function addStudent(e) {
+	e.preventDefault();
+	let name = document.getElementsById("nameField").value;
+	let knowledge = document.getElementsById("knowledgeField").value;
+	fetch(URL, {
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		method: "POST",
+		body: JSON.stringify({"name": name, "knowledge": knowledge})
+	}).then(loadStudents).then(renderStudents);
+}
+
 function initialize() {
 	loadStudents().then(renderStudents);
-	/*posts = [{
-			"name": "Andrew",
-			"knowledge": 10
-		},
-		{
-			"name": "Sergey",
-			"knowledge": 20
-		}
-
-	];
-	renderPosts(posts);*/
+	let form = document.getElementById("postForm");
+	form.addEventListener("submit", addStudent, false);
 }
+
+
 
 
 window.onload = initialize;
