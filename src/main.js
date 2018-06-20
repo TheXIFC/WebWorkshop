@@ -1,11 +1,14 @@
 
 const URL = "http://localhost:3000/students"
 
-function loadPosts() {
-	return fetch(URL);
+function loadStudents() {
+	return fetch(URL).then(r => r.json());
 }
 
-function renderPosts(posts) {
+function renderStudents(posts) {
+	//console.log(posts);
+	//conlose.log(posts.json());
+	
 	let template = document.getElementById("post-template");
 	let postElement = template.content.querySelector(".post");
 	let postList = document.getElementById("posts");
@@ -14,7 +17,6 @@ function renderPosts(posts) {
 	for (let post of posts) {
 		let postClone = postElement.cloneNode(true);
 		updatePostElement(postClone, post);
-		console.log(postClone);
 		postList.appendChild(postClone);
 	}
 }
@@ -25,12 +27,18 @@ function updatePostElement(postClone, post) {
 }
 
 function initialize() {
-	//loadPosts.then(renderPosts);
-	posts = [{
-		"name": "name",
-		"knowledge": 10
-	}];
-	renderPosts(posts);
+	loadStudents().then(renderStudents);
+	/*posts = [{
+			"name": "Andrew",
+			"knowledge": 10
+		},
+		{
+			"name": "Sergey",
+			"knowledge": 20
+		}
+
+	];
+	renderPosts(posts);*/
 }
 
 
